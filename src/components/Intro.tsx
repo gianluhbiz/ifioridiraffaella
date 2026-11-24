@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { ease } from '../lib/ease'
 import { INTRO_KEY as KEY } from '../lib/intro'
 
-/** First visit of the session: the name rises, then the panel lifts off the page. ~1.6 s. */
+/** First visit of the session: the name rises, then the panel lifts off the page - ~1.6 s. */
 export default function Intro() {
   const reduce = useReducedMotion()
   const [show, setShow] = useState(() => {
