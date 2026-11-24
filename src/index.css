@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/*
+  Deal (tasteskill): place · florist
+  palette warm-paper-walnut: a warm paper ground like the kraft and tissue a bouquet is wrapped in,
+  walnut for stems and the wooden bench. Type: Figtree (display 400). Radius soft, square photographs.
+  nav-split · footer-visit · colour-band · arrow buttons · stack mark · offer tall-small · place wall · type moment: name
+  moments: picture-develops (weddings photo, runs once in view) and a statement whose words settle once in view
+  (word-highlight's scroll-linked version is left out: the brief asks for no scroll animations).
+*/
+
+@theme {
+  --color-paper: #f7f3ec;
+  --color-surface: #ede6da;
+  --color-ink: #2a2622;
+  --color-muted: #665e55;
+  --color-walnut: #7a4a2c;
+  --color-walnut-deep: #5e3820;
+  --color-line: #d9cfc0;
+  --color-blush: #efd9cd;
+  --color-sage: #5d6a46;
+  --color-sage-soft: #dfe2cf;
+  --color-night: #221d19;
+
+  --font-sans: "Figtree", system-ui, sans-serif;
+  --font-display: "Besley", Georgia, serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-walnut);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-walnut);
+    outline-offset: 3px;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  h1,
+  h2,
+  .display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* no zoom on iOS */
+  }
+}
+
+@layer components {
+  .wrap {
+    width: min(1200px, 100% - 48px);
+    margin-inline: auto;
+  }
+
+  /* drawn underline on hover */
+  .u-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease-out-soft);
+  }
+  .u-draw:hover,
+  .u-draw:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* one button style: filled walnut, arrow that steps */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: var(--color-walnut);
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    transition:
+      background-color 0.2s ease,
+      transform 0.16s var(--ease-out-soft);
+    user-select: none;
+  }
+  .btn:hover {
+    background: var(--color-walnut-deep);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn i {
+    font-size: 18px;
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+  .btn:hover i {
+    transform: translateX(4px);
+  }
+  .btn--light {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .btn--light:hover {
+    background: #fff;
+  }
+
+  /* text link with arrow */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-weight: 500;
+    color: var(--color-walnut);
+  }
+  .link-arrow i {
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+  .link-arrow:hover i {
+    transform: translateX(4px);
+  }
+
+  /* photograph frame: square corners, zoom inside on hover when linked */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: 20px;
+    isolation: isolate;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s var(--ease-out-soft);
+  }
+  a.frame:hover img,
+  a:hover > .frame img,
+  .frame--zoom:hover img {
+    transform: scale(1.03);
+  }
+
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    color: var(--color-ink);
+    transition: border-color 0.2s ease;
+  }
+  .field:hover {
+    border-color: var(--color-muted);
+  }
+  .field:focus {
+    border-color: var(--color-walnut);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(122 74 44 / 0.18);
+  }
+  .field[aria-invalid="true"] {
+    border-color: #a3341f;
+  }
+}
+
+@layer components {
+  /* infinite marquee; rests under reduced motion and pauses on hover */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-speed, 38s) linear infinite;
+  }
+  .marquee-wrap:hover .marquee {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .spin-slow {
+    animation: spin 18s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee,
+    .spin-slow {
+      animation: none;
+    }
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+  }
+  .btn--ghost:hover {
+    background: var(--color-surface);
+  }
+  .btn--pill {
+    border-radius: 999px;
+  }
+}
+
+@media (hover: none) {
+  a.frame:hover img,
+  a:hover > .frame img,
+  .frame--zoom:hover img,
+  .btn:hover i,
+  .link-arrow:hover i {
+    transform: none;
+  }
+}
