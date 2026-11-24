@@ -47,7 +47,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper">
-      <div className="wrap grid h-[72px] grid-cols-[1fr_auto_1fr] items-center">
+      <div className="wrap flex h-[72px] items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
         <nav aria-label="Principale" className="hidden md:block">
           <ul className="flex gap-7">
             {links.map((l) => (
